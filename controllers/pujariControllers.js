@@ -94,7 +94,7 @@ exports.pujariUpdate = catchAsyncErrors(async (req, res, next) => {
 
 exports.pujariAvtar = catchAsyncErrors(async (req, res, next) => {
   const pujari = await Pujari.findById(req.params.id).exec();
-  const file = req.files.avtar;
+  const file = req.files.avatar;
   const modifiedFileName = `pujari-profile-${Date.now}${path.extname(
     file.name
   )}`;

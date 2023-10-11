@@ -83,7 +83,6 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ message: `User Deleted ${deleteUser.firstName}` });
 });
 
-
 exports.deletePujari = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.id).exec();
   if (user.admin !== true) {
@@ -94,10 +93,9 @@ exports.deletePujari = catchAsyncErrors(async (req, res, next) => {
       )
     );
   }
-   const deletePujari = await Pujari.findByIdAndDelete(req.params.id).exec();
-   res.status(200).json({ message: `Pujari Deleted ${deletePujari.firstName}` });
+  const deletePujari = await Pujari.findByIdAndDelete(req.params.id).exec();
+  res.status(200).json({ message: `Pujari Deleted ${deletePujari.firstName}` });
 });
-
 
 exports.createPuja = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.id).exec();
@@ -109,7 +107,7 @@ exports.createPuja = catchAsyncErrors(async (req, res, next) => {
       )
     );
   }
-  const puja = await new Puja().exec();
+  const puja = await Puja.create(req.body).exec();
   res.status(200).json({ message: `Puja Created Successfully`, puja });
 });
 
@@ -124,7 +122,30 @@ exports.updatePuja = catchAsyncErrors(async (req, res, next) => {
     );
   }
   const puja = await Puja.findByIdAndUpdate(req.params.id, req.body).exec();
+  // console.log(puja);
   res.status(200).json({ message: `Puja Updated Successfully`, puja });
+});
+
+exports.singlePuja = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.id).exec();
+  if (user.admin !== true) {
+    return next(
+      new ErrorHandler(
+        "Please Login With Admin Account To Acccess The Resource",
+        404
+      )
+    );
+  }
+  const puja = await Puja.findById(req.params.id).exec();
+  if (!puja) {
+    return next(
+      new ErrorHandler(
+        "Puja Not Found",
+        404
+      )
+    );
+  }
+  res.status(200).json(puja);
 });
 
 exports.deletePuja = catchAsyncErrors(async (req, res, next) => {

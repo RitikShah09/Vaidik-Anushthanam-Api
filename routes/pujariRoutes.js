@@ -15,10 +15,10 @@ const { isAuthenticated } = require("../middlewares/auth");
 
 const router = express.Router();
 
-router.get("/", homePage);
+// router.get("/", homePage);
 
 // POST/pujari
-router.post("/", isAuthenticated, currentPujari);
+router.get("/", isAuthenticated, currentPujari);
 
 // POST/pujari/Signup
 router.post("/signup", pujariSignup);

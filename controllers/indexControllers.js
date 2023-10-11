@@ -92,7 +92,7 @@ exports.userUpdate = catchAsyncErrors(async (req, res, next) => {
 
 exports.userAvtar = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id).exec();
-  const file = req.files.avtar;
+  const file = req.files.avatar;
   const modifiedFileName = `user-profile-${Date.now}${path.extname(
     file.name
   )}`;
