@@ -46,6 +46,8 @@ app.use(fileUpload());
 app.use("/", require("./routes/indexRoutes"));
 // app.use("/puja", require("./routes/resumeRoutes"));
 app.use("/pujari", require("./routes/pujariRoutes"));
+app.use("/admin", require("./routes/adminRoutes"));
+
 
 
 // Error Handling

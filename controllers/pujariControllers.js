@@ -26,7 +26,7 @@ exports.pujariSignin = catchAsyncErrors(async (req, res, next) => {
     .select("+password")
     .exec();
   if (!pujari) {
-    return next(new ErrorHandler("pujari Not Found With This Email Address"));
+    return next(new ErrorHandler("Pujari Not Found With This Email Address"));
   }
 
   const isMatch = await pujari.comparePassword(password);
@@ -45,7 +45,7 @@ exports.pujariSignout = catchAsyncErrors(async (req, res, next) => {
 exports.pujariSendMail = catchAsyncErrors(async (req, res, next) => {
   const pujari = await Pujari.findOne({ email: req.body.email }).exec();
   if (!pujari) {
-    return next(new ErrorHandler("pujari Not Found With This Email Address"));
+    return next(new ErrorHandler("Pujari Not Found With This Email Address"));
   }
   // const url = `${req.protocol}://${req.get("host")}/pujari/forget-link/${
   //   pujari._id
@@ -63,7 +63,7 @@ exports.pujariSendMail = catchAsyncErrors(async (req, res, next) => {
 exports.pujariForgetLink = catchAsyncErrors(async (req, res, next) => {
   const pujari = await Pujari.findOne({ email: req.body.email }).exec();
   if (!pujari) {
-    return next(new ErrorHandler("pujari Not Found With This Email Address"));
+    return next(new ErrorHandler("Pujari Not Found With This Email Address"));
   }
   if (pujari.resetPasswordToken == req.body.otp) {
     pujari.resetPasswordToken == "";
@@ -88,7 +88,7 @@ exports.pujariUpdate = catchAsyncErrors(async (req, res, next) => {
   await Pujari.findByIdAndUpdate(req.params.id, req.body).exec();
   res.status(200).json({
     success: true,
-    message: "pujari Updated Successfully",
+    message: "Pujari Updated Successfully",
   });
 });
 
