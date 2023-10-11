@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const userModel = new mongoose.Schema(
+const pujariModel = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -59,23 +59,23 @@ const userModel = new mongoose.Schema(
   { timestamps: true }
 );
 
-userModel.pre("save", async function () {
+pujariModel.pre("save", async function () {
   if (!this.isModified("password")) {
     return;
   }
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-userModel.methods.comparePassword = function (password) {
+pujariModel.methods.comparePassword = function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-userModel.methods.getJwtoken = function () {
+pujariModel.methods.getJwtoken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
 
-const User = mongoose.model("user", userModel);
+const Pujari = mongoose.model("pujari", pujariModel);
 
-module.exports = User;
+module.exports = Pujari;

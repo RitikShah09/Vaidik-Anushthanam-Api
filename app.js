@@ -44,6 +44,9 @@ const fileUpload = require("express-fileupload");
 app.use(fileUpload());
 
 app.use("/", require("./routes/indexRoutes"));
+// app.use("/puja", require("./routes/resumeRoutes"));
+app.use("/pujari", require("./routes/pujariRoutes"));
+
 
 // Error Handling
 app.all("*", (req, res, next) => {
@@ -54,5 +57,5 @@ app.use(generatedErrors);
 
 app.listen(
   process.env.PORT,
-  console.log(`Server is Running  on PORT ${process.env.PORT}`)
+  console.log(`Server Is Running  On PORT ${process.env.PORT}`)
 );
