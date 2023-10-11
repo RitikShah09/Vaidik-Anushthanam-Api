@@ -14,6 +14,11 @@ exports.homePage = catchAsyncErrors(async (req, res, next) => {
   res.json({ message: "Home Page" });
 });
 
+exports.offerPuja = catchAsyncErrors(async (req, res, next) => {
+  const puja = await Puja.find({ "offers.isOffer": true }).exec();
+  res.status(200).json({ puja });
+});
+
 exports.currentAdmin = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.id).exec();
   if (user.admin !== true) {
@@ -107,7 +112,7 @@ exports.createPuja = catchAsyncErrors(async (req, res, next) => {
       )
     );
   }
-  const puja = await Puja.create(req.body).exec();
+  const puja = await Puja.create(req.body);
   res.status(200).json({ message: `Puja Created Successfully`, puja });
 });
 

@@ -10,6 +10,14 @@ const pujaModel = new mongoose.Schema(
     descripions: String,
     location: String,
     mandir: String,
+    offers: {
+      isOffer: {
+        type: Boolean,
+        default:false
+      },
+      discount: Number,
+      message: String,
+    },
     photo: {
       type: Object,
       default: {
