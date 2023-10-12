@@ -29,7 +29,7 @@ exports.allOrder = catchAsyncErrors(async (req, res, next) => {
       )
     );
   }
-  const allOrder = await Order.find().populate("user").populate("puja").exec();
+  const allOrder = await Order.find().exec();
   res.status(200).json(allOrder);
 });
 

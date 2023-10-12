@@ -8,7 +8,7 @@ exports.createOrder = catchAsyncErrors(async (req, res, next) => {
     totalAmount: req.body.totalAmount,
     paymentMethod: req.body.paymentMethod,
     Address: req.body.Address,
-    puja: req.params.id,
+    puja: req.body.puja,
     user: req.id,
   };
   const newOrder = await Order.create(order);

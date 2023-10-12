@@ -14,12 +14,18 @@ exports.createOffer = catchAsyncErrors(async (req, res, next) => {
       )
     );
   }
-  const puja = await Puja.findByIdAndUpdate(
+  const updatedPuja = await Puja.findByIdAndUpdate(
     req.params.id,
-    ...req.body,
-    (offers.isOffer = true)
+    {
+      offers: {
+        isOffer: true,
+        discount: req.body.discount,
+        message: req.body.message,
+      },
+    },
+    { new: true }
   ).exec();
-  res.status(200).json({ message: `Offer Created Successfully`, puja });
+  res.status(200).json({ message: `Offer Created Successfully`, updatedPuja });
 });
 
 exports.deleteOffer = catchAsyncErrors(async (req, res, next) => {
@@ -34,16 +40,20 @@ exports.deleteOffer = catchAsyncErrors(async (req, res, next) => {
   }
   const puja = await Puja.findByIdAndUpdate(
     req.params.id,
-    ...req.body,
-    (offers.isOffer = false)
+    {
+      offers: {
+        isOffer: false,
+        discount: null,
+        message: "No Offer",
+      },
+    },
+    { new: true }
   ).exec();
   res.status(200).json({ message: `Offer Deleted Successfully`, puja });
 });
 
 exports.offerPuja = catchAsyncErrors(async (req, res, next) => {
-  const puja = await Puja.find({
-    offers: { $elemMatch: { isOffer: true } },
-  }).exec();
+  const puja = await Puja.find({ "offers.isOffer": "true" }).exec();
   res.status(200).json({ puja });
 });
 

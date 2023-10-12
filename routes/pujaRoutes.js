@@ -18,8 +18,8 @@ router.post("/create", isAuthenticated, createPuja);
 router.post("/update/:id", isAuthenticated, updatePuja);
 router.get("/:id", isAuthenticated, singlePuja);
 
-router.post("/create-offer/:id", createOffer);
-router.post("/delete-offer", deleteOffer);
+router.post("/create-offer/:id",isAuthenticated, createOffer);
+router.get("/delete-offer/:id",isAuthenticated, deleteOffer);
 router.get("/delete/:id", isAuthenticated, deletePuja);
 
 module.exports = router;
