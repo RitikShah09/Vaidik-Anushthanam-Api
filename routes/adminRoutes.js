@@ -11,6 +11,7 @@ const {
   createPuja,
   offerPuja,
   singlePuja,
+  allOrder,
 } = require("../controllers/adminControllers");
 const { isAuthenticated } = require("../middlewares/auth");
 
@@ -20,6 +21,8 @@ router.get("/", isAuthenticated, currentAdmin);
 router.get("/all-user", isAuthenticated, allUser);
 router.get("/all-pujari", isAuthenticated, allPujari);
 router.get("/all-puja", isAuthenticated, allPuja);
+router.get("/all-order", isAuthenticated, allOrder);
+
 router.post("/create-puja", isAuthenticated, createPuja);
 router.post("/update-puja/:id", isAuthenticated, updatePuja);
 router.get("/puja/:id", isAuthenticated, singlePuja);

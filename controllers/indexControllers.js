@@ -1,5 +1,8 @@
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 const User = require("../models/userModel");
+const Puja = require("../models/pujaModel");
+const Order = require("../models/orderModel");
+
 const ErrorHandler = require("../utils/errorHandler");
 const { sendMail } = require("../utils/nodeMailer");
 const { sendToken } = require("../utils/sendToken");
@@ -38,6 +41,28 @@ exports.userSignin = catchAsyncErrors(async (req, res, next) => {
 exports.userSignout = catchAsyncErrors(async (req, res, next) => {
   res.clearCookie("token");
   res.json({ message: "Successfully Singed Out!" });
+});
+
+exports.userAddress = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.id).exec();
+  user.addresses.push(req.body);
+  await user.save();
+  res.status(200).json({ message: "Successfully Added" });
+});
+
+exports.bookPuja = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.id).exec();
+  const order = {
+    totalAmount: req.body.totalAmount,
+    paymentMethod: req.body.paymentMethod,
+    Address: req.body.Address,
+    puja: req.params.id,
+    user: req.id,
+  };
+  const newOrder = await Order.create(order);
+  user.order.push(newOrder._id);
+  await user.save();
+  res.status(200).json({ message: "Successfully Ordered", newOrder });
 });
 
 exports.userSendMail = catchAsyncErrors(async (req, res, next) => {
@@ -93,9 +118,7 @@ exports.userUpdate = catchAsyncErrors(async (req, res, next) => {
 exports.userAvtar = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id).exec();
   const file = req.files.avatar;
-  const modifiedFileName = `user-profile-${Date.now}${path.extname(
-    file.name
-  )}`;
+  const modifiedFileName = `user-profile-${Date.now}${path.extname(file.name)}`;
   if (user.avatar.fileId !== "") {
     await imageKit.deleteFile(user.avatar.fileId);
   }
@@ -107,4 +130,3 @@ exports.userAvtar = catchAsyncErrors(async (req, res, next) => {
   await user.save();
   res.status(200).json({ success: true, message: "Profile Updated" });
 });
-

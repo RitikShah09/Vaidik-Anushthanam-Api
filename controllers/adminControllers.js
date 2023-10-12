@@ -2,6 +2,7 @@ const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 const Pujari = require("../models/pujariModel");
 const User = require("../models/userModel");
 const Puja = require("../models/pujaModel");
+const Order = require("../models/orderModel");
 
 const ErrorHandler = require("../utils/errorHandler");
 const { sendMail } = require("../utils/nodeMailer");
@@ -74,6 +75,20 @@ exports.allPuja = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ allPuja });
 });
 
+exports.allOrder = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.id).exec();
+  if (user.admin !== true) {
+    return next(
+      new ErrorHandler(
+        "Please Login With Admin Account To Acccess The Resource",
+        404
+      )
+    );
+  }
+  const allOrder = await Order.find().populate("user").populate("puja").exec();
+  res.status(200).json({allOrder});
+});
+
 exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.id).exec();
   if (user.admin !== true) {
@@ -143,12 +158,7 @@ exports.singlePuja = catchAsyncErrors(async (req, res, next) => {
   }
   const puja = await Puja.findById(req.params.id).exec();
   if (!puja) {
-    return next(
-      new ErrorHandler(
-        "Puja Not Found",
-        404
-      )
-    );
+    return next(new ErrorHandler("Puja Not Found", 404));
   }
   res.status(200).json(puja);
 });
