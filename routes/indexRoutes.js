@@ -1,6 +1,5 @@
 const express = require("express");
 const {
-  homePage,
   userSignup,
   userSignin,
   userSignout,
@@ -16,8 +15,6 @@ const {
 const { isAuthenticated } = require("../middlewares/auth");
 
 const router = express.Router();
-
-router.get("/", homePage);
 
 // POST/User
 router.get("/user", isAuthenticated, currentUser);

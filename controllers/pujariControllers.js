@@ -6,13 +6,10 @@ const { sendToken } = require("../utils/sendToken");
 const imageKit = require("../utils/imageKit").initImageKit();
 const path = require("path");
 
-exports.homePage = catchAsyncErrors(async (req, res, next) => {
-  res.json({ message: "Home Page" });
-});
 
 exports.currentPujari = catchAsyncErrors(async (req, res, next) => {
   const pujari = await Pujari.findById(req.id).exec();
-  res.json(pujari);
+  res.status(200).json(pujari);
 });
 
 exports.pujariSignup = catchAsyncErrors(async (req, res, next) => {
@@ -47,9 +44,6 @@ exports.pujariSendMail = catchAsyncErrors(async (req, res, next) => {
   if (!pujari) {
     return next(new ErrorHandler("Pujari Not Found With This Email Address"));
   }
-  // const url = `${req.protocol}://${req.get("host")}/pujari/forget-link/${
-  //   pujari._id
-  //   }`;
 
   const url = Math.floor(Math.random() * 9000 + 1000);
 

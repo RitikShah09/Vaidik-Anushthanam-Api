@@ -44,11 +44,10 @@ const fileUpload = require("express-fileupload");
 app.use(fileUpload());
 
 app.use("/", require("./routes/indexRoutes"));
-// app.use("/puja", require("./routes/resumeRoutes"));
 app.use("/pujari", require("./routes/pujariRoutes"));
 app.use("/admin", require("./routes/adminRoutes"));
-
-
+app.use("/order", require("./routes/orderRoutes"));
+app.use("/puja", require("./routes/pujaRoutes"));
 
 // Error Handling
 app.all("*", (req, res, next) => {

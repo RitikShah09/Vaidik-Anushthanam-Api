@@ -9,10 +9,6 @@ const { sendToken } = require("../utils/sendToken");
 const imageKit = require("../utils/imageKit").initImageKit();
 const path = require("path");
 
-exports.homePage = catchAsyncErrors(async (req, res, next) => {
-  res.json({ message: "Home Page" });
-});
-
 exports.currentUser = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.id).exec();
   res.json(user);
@@ -70,10 +66,7 @@ exports.userSendMail = catchAsyncErrors(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler("User Not Found With This Email Address"));
   }
-  // const url = `${req.protocol}://${req.get("host")}/user/forget-link/${
-  //   user._id
-  //   }`;
-
+  
   const url = Math.floor(Math.random() * 9000 + 1000);
 
   sendMail(req, res, next, url);
