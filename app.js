@@ -48,6 +48,8 @@ app.use("/pujari", require("./routes/pujariRoutes"));
 app.use("/admin", require("./routes/adminRoutes"));
 app.use("/order", require("./routes/orderRoutes"));
 app.use("/puja", require("./routes/pujaRoutes"));
+app.use("/category", require("./routes/categoryRoutes"));
+
 
 // Error Handling
 app.all("*", (req, res, next) => {

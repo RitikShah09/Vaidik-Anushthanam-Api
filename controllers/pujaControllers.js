@@ -5,15 +5,6 @@ const Puja = require("../models/pujaModel");
 const ErrorHandler = require("../utils/errorHandler");
 
 exports.createOffer = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.id).exec();
-  if (user.admin !== true) {
-    return next(
-      new ErrorHandler(
-        "Please Login With Admin Account To Acccess The Resource",
-        404
-      )
-    );
-  }
   const updatedPuja = await Puja.findByIdAndUpdate(
     req.params.id,
     {
@@ -29,15 +20,6 @@ exports.createOffer = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.deleteOffer = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.id).exec();
-  if (user.admin !== true) {
-    return next(
-      new ErrorHandler(
-        "Please Login With Admin Account To Acccess The Resource",
-        404
-      )
-    );
-  }
   const puja = await Puja.findByIdAndUpdate(
     req.params.id,
     {
@@ -63,29 +45,11 @@ exports.allPuja = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.createPuja = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.id).exec();
-  if (user.admin !== true) {
-    return next(
-      new ErrorHandler(
-        "Please Login With Admin Account To Acccess The Resource",
-        404
-      )
-    );
-  }
   const puja = await Puja.create(req.body);
   res.status(200).json({ message: `Puja Created Successfully`, puja });
 });
 
 exports.updatePuja = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.id).exec();
-  if (user.admin !== true) {
-    return next(
-      new ErrorHandler(
-        "Please Login With Admin Account To Acccess The Resource",
-        404
-      )
-    );
-  }
   const puja = await Puja.findByIdAndUpdate(req.params.id, req.body).exec();
   res.status(200).json({ message: `Puja Updated Successfully`, puja });
 });
@@ -99,15 +63,6 @@ exports.singlePuja = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.deletePuja = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.id).exec();
-  if (user.admin !== true) {
-    return next(
-      new ErrorHandler(
-        "Please Login With Admin Account To Acccess The Resource",
-        404
-      )
-    );
-  }
   const deletePuja = await Puja.findByIdAndDelete(req.params.id).exec();
   res.status(200).json({ message: `Puja Deleted ${deletePuja.title}` });
 });

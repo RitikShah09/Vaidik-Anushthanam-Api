@@ -1,6 +1,5 @@
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 const User = require("../models/userModel");
-const Puja = require("../models/pujaModel");
 const Order = require("../models/orderModel");
 
 const ErrorHandler = require("../utils/errorHandler");
@@ -15,6 +14,10 @@ exports.currentUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.userSignup = catchAsyncErrors(async (req, res, next) => {
+  const userExists = await User.findOne({ email: req.body.email });
+  if (userExists) {
+    return next(new ErrorHandler("User already exists with this email address"));
+  }
   const user = await new User(req.body).save();
   sendToken(user, 201, res);
 });

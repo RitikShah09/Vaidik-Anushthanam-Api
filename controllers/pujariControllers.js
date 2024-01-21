@@ -13,6 +13,12 @@ exports.currentPujari = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.pujariSignup = catchAsyncErrors(async (req, res, next) => {
+  const pujariExists = await Pujari.findOne({ email: req.body.email });
+  if (pujariExists) {
+    return next(
+      new ErrorHandler("Pujari already exists with this email address")
+    );
+  }
   const pujari = await new Pujari(req.body).save();
   sendToken(pujari, 201, res);
 });
